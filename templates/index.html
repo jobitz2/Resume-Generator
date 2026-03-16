@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>AI Resume Generator</title>
+    <link rel='stylesheet' href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class='container'>
+        <h1>AI Resume / Cover Letter Generator</h1>
+
+        <form method='POST'>
+            <label for='resume_text'>Paste Resume Text:</label>
+            <textarea name='resume_text' id='resume_text' required></textarea>
+
+            <label for='job_description'>Paste Job Description:</label>
+            <textarea name='job_description' id='job_description' required></textarea>
+
+            <button type='submit'>Generate</button>
+        </form>
+
+        {% if result %}
+            <div class='output'>
+                <h2>Generated Results</h2>
+                <pre>{{ result }}</pre>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
