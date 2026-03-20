@@ -1,13 +1,15 @@
 from flask import Flask, render_template, request
-from openai import OpenAI
 from dotenv import load_dotenv
+import anthropic
 import os
 
 load_dotenv()
 
 app = Flask(__name__)
 
-client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
+client = anthropic.Anthropic(
+    api_key=os.getenv('ANTHROPIC_API_KEY')
+)
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
@@ -31,12 +33,15 @@ Job Description:
 {job_description}
 '''
 
-        response = client.responses.create(
-            model='gpt-5',
-            input=prompt
+        response = client.messages.create(
+            model='claude-opus-4-6',
+            max_tokens=1000,
+            messages=[
+                {'role': 'user', 'content': prompt}
+            ]
         )
 
-        result = response.output_text
+        result = response.content[0].text
 
     return render_template('index.html', result=result)
 
